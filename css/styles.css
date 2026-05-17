@@ -1,0 +1,1098 @@
+/* Wedding invitation — dual theme, mobile-first */
+
+:root {
+  --ivory: #f8f4ee;
+  --maroon: #6b1e2d;
+  --turmeric: #d4a017;
+  --mustard: #c9a227;
+  --marigold: #e8a838;
+  --terracotta: #c4694a;
+  --slate: #4a5568;
+  --twilight: #1e2a3a;
+  --midnight: #0f1729;
+  --champagne: #d4af6a;
+  --emerald: #1a5c4a;
+  --forest: #2d4a3e;
+  --white: #ffffff;
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Outfit", system-ui, sans-serif;
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --rsvp-h: 4.5rem;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  color: #2c2419;
+  background: var(--ivory);
+  overflow-x: hidden;
+  padding-bottom: calc(var(--rsvp-h) + var(--safe-bottom));
+}
+
+/* Global theme morph overlay */
+.theme-morph {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--ivory);
+  transition: background 1.2s var(--ease);
+}
+
+body[data-global-theme="twilight"] .theme-morph { background: linear-gradient(180deg, #1e2a3a 0%, #2a3f5f 100%); }
+body[data-global-theme="marigold"] .theme-morph { background: linear-gradient(180deg, #f5e6d0 0%, #e8c9a0 100%); }
+body[data-global-theme="events"] .theme-morph { background: #f0ebe3; }
+
+/* Background image layers */
+.section-bg,
+.event-bg,
+.intro-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.section-bg::before,
+.event-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.22;
+  transform: scale(1.05);
+  transition: transform 8s linear, opacity 1s var(--ease);
+}
+
+.section--invocation .section-bg::before { opacity: 0.18; }
+
+.event-card.in-view .event-bg::before {
+  transform: scale(1);
+  opacity: 0.42;
+}
+
+.event-card--wedding .event-bg::before,
+.event-card--pk .event-bg::before,
+.event-card--haldi .event-bg::before,
+.event-card--vratham .event-bg::before,
+.event-card--sangeet .event-bg::before {
+  opacity: 0.38;
+}
+
+/* Local asset backgrounds (paths relative to css/styles.css) */
+.event-card--pk .event-bg::before {
+  background-image: url("../assets/elephant.avif");
+  opacity: 0.4;
+}
+
+.event-card--haldi .event-bg::before {
+  background-image: url("../assets/sunset.jpg");
+  opacity: 0.4;
+}
+
+.event-card--wedding .event-bg::before {
+  background-image: url("../assets/kalyanam.jpg");
+  opacity: 0.4;
+}
+
+.event-card--vratham .event-bg::before {
+  background-image: url("../assets/vratham.jpg");
+  opacity: 0.4;
+}
+
+.event-card--sangeet .event-bg::before {
+  background-image: url("../assets/sangeet.jpg");
+  opacity: 0.4;
+}
+
+.section-bg::after,
+.event-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+}
+
+/* Audio toggle */
+.audio-toggle {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top));
+  right: 0.75rem;
+  z-index: 200;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  color: var(--maroon);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.audio-icon { width: 1.25rem; height: 1.25rem; }
+.audio-icon--on { display: none; }
+.audio-toggle.is-playing .audio-icon--off { display: none; }
+.audio-toggle.is-playing .audio-icon--on { display: block; }
+
+/* Event dot navigation */
+.event-dots {
+  position: fixed;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0.25rem;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 2rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.event-dots button {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--slate);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+  padding: 0;
+}
+
+.event-dots button span {
+  display: block;
+  line-height: 1;
+}
+
+.event-dots button.is-active,
+.event-dots button:hover {
+  background: var(--maroon);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+@media (min-width: 768px) {
+  .event-dots { right: 1.5rem; }
+  .event-dots button { width: 2.25rem; height: 2.25rem; font-size: 0.6rem; }
+}
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+
+.reveal--from-right {
+  transform: translateX(40px);
+  opacity: 0;
+}
+
+.reveal--from-left {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Section 1: Invocation */
+.section--invocation {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ivory);
+  text-align: center;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.section--invocation::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(248,244,238,0.7) 0%, rgba(248,244,238,0.95) 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.section-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 28rem;
+}
+
+.invocation-header {
+  margin-bottom: 1.25rem;
+}
+
+.invocation-mantra {
+  margin: 0 0 0.5rem;
+  font-family: "Noto Serif Telugu", var(--font-serif);
+  font-size: clamp(1.05rem, 4.5vw, 1.35rem);
+  font-weight: 600;
+  color: var(--maroon);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.invocation-blessing {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+  font-style: italic;
+  font-weight: 500;
+  color: #5c4a3a;
+  letter-spacing: 0.06em;
+  text-transform: capitalize;
+}
+
+/* Real Ganesha photo at top */
+.ganesha-hero {
+  margin: 0 auto 1.75rem;
+  animation: float 4s ease-in-out infinite;
+}
+
+.ganesha-frame {
+  width: min(11rem, 42vw);
+  margin: 0 auto;
+  padding: 0.35rem;
+  border-radius: 50% 50% 45% 45%;
+  background: linear-gradient(145deg, #d4af6a 0%, #b8860b 40%, #8b6914 100%);
+  box-shadow:
+    0 0 0 3px rgba(184, 134, 11, 0.25),
+    0 12px 32px rgba(107, 30, 45, 0.2);
+}
+
+.ganesha-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 48% 48% 42% 42%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Decorative photo motifs */
+.photo-motif {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.traditional-photos {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.intro-panel--traditional .photo-motif--banana {
+  width: min(7.5rem, 30vw);
+  height: auto;
+  max-height: 32%;
+  bottom: 0.75rem;
+  left: 0;
+  object-fit: contain;
+  object-position: left bottom;
+  border-radius: 0;
+  box-shadow: none;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.photo-motif--temple-gopuram {
+  width: 100%;
+  max-width: 22rem;
+  height: 55%;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 1rem 1rem 0 0;
+  opacity: 0.55;
+  object-position: center bottom;
+  mask-image: linear-gradient(to top, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 40%, transparent 100%);
+}
+
+.event-photos {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.photo-motif--lotus {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  opacity: 0.9;
+}
+
+.photo-motif--lotus-1 {
+  top: 1rem;
+  right: 1rem;
+  animation: float 5s ease-in-out infinite;
+}
+
+.photo-motif--lotus-2 {
+  top: 4.5rem;
+  right: 4rem;
+  width: 4rem;
+  height: 4rem;
+  animation: float 4s ease-in-out infinite 0.5s;
+}
+
+.photo-motif--lotus--float {
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6rem;
+  height: 6rem;
+}
+
+.photo-motif--deity {
+  width: 6rem;
+  height: 7rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 2px solid rgba(212, 175, 106, 0.6);
+}
+
+.photo-motif--corner {
+  top: 1rem;
+  left: 1rem;
+  opacity: 0.85;
+}
+
+.photo-motif--kalyanam {
+  bottom: 42%;
+  left: 1rem;
+  width: 7rem;
+  height: 8rem;
+  opacity: 0.75;
+}
+
+.photo-motif--temple {
+  bottom: 38%;
+  right: 0.5rem;
+  width: 8rem;
+  height: 6rem;
+  opacity: 0.7;
+  border-radius: 0.5rem;
+}
+
+.photo-motif--elephant {
+  top: 1rem;
+  left: 1rem;
+  width: 7.5rem;
+  height: 5.5rem;
+  border-radius: 0.65rem;
+  opacity: 0.88;
+  border: 2px solid rgba(212, 175, 106, 0.55);
+}
+
+.photo-motif--cow {
+  bottom: 40%;
+  right: 1rem;
+  width: 6.5rem;
+  height: 5rem;
+  border-radius: 0.75rem;
+  opacity: 0.85;
+}
+
+.photo-motif--bells {
+  top: 1rem;
+  right: 1rem;
+  opacity: 0.8;
+}
+
+@media (min-width: 480px) {
+  .ganesha-frame { width: 12rem; }
+  .intro-panel--traditional .photo-motif--banana { width: 8.5rem; max-height: 34%; }
+  .photo-motif--temple-gopuram { max-width: 26rem; }
+}
+
+.invocation-text {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #5c5348;
+  margin: 0 0 2rem;
+  font-weight: 300;
+}
+
+.couple-names {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(2.5rem, 10vw, 3.75rem);
+  line-height: 1.1;
+  margin: 0;
+  color: #1a1510;
+}
+
+.couple-names .ampersand {
+  display: block;
+  font-size: 0.45em;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--champagne);
+  margin: 0.15em 0;
+}
+
+.scroll-hint {
+  margin-top: 2.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a8075;
+}
+
+.scroll-chevron {
+  width: 1.5rem;
+  margin: 0.5rem auto 0;
+  color: var(--champagne);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* Section 2: Introductions */
+.section--roots {
+  position: relative;
+}
+
+.intro-panel {
+  position: relative;
+  min-height: 85dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem 1.5rem 4rem;
+  overflow: hidden;
+}
+
+.intro-panel--modern {
+  background: linear-gradient(165deg, #1e2a3a 0%, #2d4a6a 45%, #3d5a80 100%);
+  color: var(--white);
+}
+
+.intro-panel--modern .intro-bg {
+  color: #a8c4e8;
+}
+
+.intro-panel--modern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1200&q=80&auto=format&fit=crop') center/cover;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.intro-panel--traditional {
+  background: linear-gradient(165deg, #3d2018 0%, #5c2e24 45%, #6b1e2d 100%);
+  color: var(--ivory);
+}
+
+.intro-panel--traditional::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/temple.avif") center bottom / cover no-repeat;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.intro-panel--traditional::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(61, 32, 24, 0.5) 0%,
+    rgba(61, 32, 24, 0.15) 40%,
+    rgba(26, 12, 8, 0.65) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.intro-panel--traditional .intro-bg {
+  color: var(--marigold);
+}
+
+.intro-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.skyline,
+.gopuram-scene {
+  width: 100%;
+  height: 100%;
+  color: inherit;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+  max-width: 32rem;
+}
+
+.intro-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 0.5rem;
+}
+
+.intro-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+  line-height: 1.15;
+}
+
+.family-tree p {
+  margin: 0.35rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+.family-sub {
+  opacity: 0.8;
+  font-size: 0.82rem !important;
+  padding-left: 0.5rem;
+}
+
+/* Cross-fade slide between intro panels */
+.intro-panel--modern .intro-content {
+  margin-left: auto;
+  text-align: right;
+}
+
+.intro-panel--traditional .intro-content {
+  margin-right: auto;
+  text-align: left;
+  z-index: 3;
+  text-shadow: 0 1px 8px rgba(26, 12, 8, 0.6);
+}
+
+.intro-panel--traditional .intro-label {
+  color: var(--champagne);
+  opacity: 0.9;
+}
+
+.intro-panel--traditional .intro-name {
+  color: var(--ivory);
+}
+
+.intro-panel--traditional .family-tree strong {
+  color: var(--marigold);
+  font-weight: 500;
+}
+
+/* Events section */
+.section--events {
+  padding: 3rem 0 2rem;
+  position: relative;
+}
+
+.events-header {
+  text-align: center;
+  padding: 0 1.5rem 2rem;
+}
+
+.events-header h2 {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  margin: 0 0 0.5rem;
+  color: var(--maroon);
+}
+
+.events-header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b6358;
+  max-width: 22rem;
+  margin-inline: auto;
+}
+
+.event-card {
+  position: relative;
+  margin: 0 1rem 1.25rem;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  min-height: 22rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.event-bg::after {
+  background: linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%);
+}
+
+/* Per-event theme overlays */
+.event-card--pk {
+  --card-accent: var(--turmeric);
+  background: linear-gradient(135deg, #d4a017 0%, #a63d2f 100%);
+}
+.event-card--pk .event-bg::after {
+  background: linear-gradient(0deg, rgba(107,30,45,0.9) 0%, rgba(212,160,23,0.4) 60%, transparent 100%);
+}
+
+.event-card--haldi {
+  background: linear-gradient(135deg, #ffe566 0%, #ffb347 100%);
+}
+.event-card--haldi .event-bg::after {
+  background: linear-gradient(0deg, rgba(30,42,58,0.85) 0%, rgba(255,229,102,0.3) 100%);
+}
+
+.event-card--wedding {
+  background: linear-gradient(135deg, #6b1e2d 0%, #3d0f18 100%);
+}
+.event-card--wedding .event-bg::after {
+  background: linear-gradient(0deg, rgba(45,10,20,0.92) 0%, rgba(107,30,45,0.5) 100%);
+}
+
+.event-card--vratham {
+  background: linear-gradient(135deg, #f8f6f0 0%, #e8e4d8 100%);
+  color: #2d4a3e;
+}
+.event-card--vratham .event-bg::after {
+  background: linear-gradient(0deg, rgba(45,74,62,0.88) 0%, rgba(248,246,240,0.2) 100%);
+}
+.event-card--vratham .event-body { color: var(--white); }
+
+.event-card--sangeet {
+  background: linear-gradient(135deg, #0f1729 0%, #1e3a5f 100%);
+}
+.event-card--sangeet .event-bg::after {
+  background: linear-gradient(0deg, rgba(15,23,41,0.95) 0%, rgba(30,58,95,0.4) 100%);
+}
+
+.event-card--reception {
+  background: linear-gradient(135deg, #1a5c4a 0%, #0f1729 100%);
+}
+.event-card--reception .event-bg::after {
+  background: linear-gradient(0deg, rgba(26,92,74,0.9) 0%, rgba(15,23,41,0.5) 100%);
+}
+
+.event-body {
+  position: relative;
+  z-index: 2;
+  padding: 1.75rem 1.5rem;
+  color: var(--white);
+}
+
+.event-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 2rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
+}
+
+.event-body h3 {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.event-details {
+  margin: 0 0 1.25rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.event-details > div {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.5rem;
+  align-items: start;
+}
+
+.event-details dt {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  margin: 0;
+  font-weight: 500;
+}
+
+.event-details dd {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+.btn-maps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  background: var(--white);
+  color: var(--maroon);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0.75rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  min-height: 3rem;
+}
+
+.btn-maps:active {
+  transform: scale(0.98);
+}
+
+/* Footer — warm marigold bookend */
+.section--footer {
+  position: relative;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4.5rem 1.5rem calc(5rem + var(--safe-bottom));
+  background: linear-gradient(
+    180deg,
+    var(--ivory) 0%,
+    #faf3e8 30%,
+    #f5e6d0 65%,
+    #edd9b8 100%
+  );
+  color: #2c2419;
+  overflow: hidden;
+}
+
+.section--footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 106, 0.5) 20%,
+    rgba(107, 30, 45, 0.35) 50%,
+    rgba(212, 175, 106, 0.5) 80%,
+    transparent
+  );
+  z-index: 1;
+}
+
+.footer-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(232, 168, 56, 0.12) 0%, transparent 70%),
+    radial-gradient(circle at 15% 80%, rgba(107, 30, 45, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(212, 160, 23, 0.08) 0%, transparent 35%);
+}
+
+.footer-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.045;
+  background-image: radial-gradient(circle, var(--maroon) 1px, transparent 1px);
+  background-size: 1.25rem 1.25rem;
+}
+
+.footer-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 26rem;
+}
+
+.footer-emojis {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.85rem;
+  margin: 0 0 1.75rem;
+  font-size: clamp(1.65rem, 5.5vw, 2.1rem);
+  line-height: 1;
+}
+
+.footer-emoji {
+  display: inline-block;
+  animation: emoji-bounce 2.2s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(107, 30, 45, 0.08));
+}
+
+.footer-emoji:nth-child(1) { animation-delay: 0s; }
+.footer-emoji:nth-child(2) { animation-delay: 0.12s; }
+.footer-emoji:nth-child(3) { animation-delay: 0.24s; }
+.footer-emoji:nth-child(4) { animation-delay: 0.36s; }
+.footer-emoji:nth-child(5) { animation-delay: 0.48s; }
+.footer-emoji:nth-child(6) { animation-delay: 0.6s; }
+.footer-emoji:nth-child(7) { animation-delay: 0.72s; }
+
+@keyframes emoji-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-12px) scale(1.06); }
+  60% { transform: translateY(-4px) scale(1.02); }
+}
+
+.footer-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0 auto 1.5rem;
+  max-width: 12rem;
+}
+
+.footer-ornament::before,
+.footer-ornament::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.55));
+}
+
+.footer-ornament::after {
+  background: linear-gradient(90deg, rgba(184, 134, 11, 0.55), transparent);
+}
+
+.footer-ornament span {
+  font-size: 0.65rem;
+  color: var(--maroon);
+  opacity: 0.7;
+  letter-spacing: 0.2em;
+}
+
+.footer-message {
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 4.8vw, 1.9rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0 0 1.75rem;
+  color: var(--maroon);
+}
+
+.footer-signoff {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+  font-style: italic;
+  font-weight: 500;
+  color: #8a6b4a;
+  letter-spacing: 0.04em;
+}
+
+.footer-families {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 3.4vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin: 0;
+  color: #4a3d32;
+}
+
+/* Fixed RSVP */
+.rsvp-fixed {
+  position: fixed;
+  bottom: calc(0.75rem + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 180;
+  min-width: min(18rem, calc(100vw - 3rem));
+  padding: 1rem 2.5rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--maroon) 0%, #8b2d40 50%, var(--champagne) 150%);
+  border: none;
+  border-radius: 3rem;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(107,30,45,0.45);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.rsvp-fixed:active {
+  transform: translateX(-50%) scale(0.97);
+}
+
+/* RSVP Modal */
+.rsvp-modal {
+  border: none;
+  border-radius: 1.25rem;
+  padding: 0;
+  max-width: calc(100vw - 2rem);
+  width: 22rem;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+}
+
+.rsvp-modal::backdrop {
+  background: rgba(15,23,41,0.6);
+  backdrop-filter: blur(4px);
+}
+
+.rsvp-modal-inner {
+  padding: 2rem 1.5rem;
+  background: var(--ivory);
+}
+
+.rsvp-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  border: none;
+  background: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+}
+
+.rsvp-modal h2 {
+  font-family: var(--font-serif);
+  margin: 0 0 0.5rem;
+  color: var(--maroon);
+}
+
+.rsvp-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.rsvp-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #5c5348;
+}
+
+.rsvp-form input,
+.rsvp-form textarea {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #ddd5c8;
+  border-radius: 0.5rem;
+  background: var(--white);
+}
+
+.btn-submit {
+  padding: 0.85rem;
+  background: var(--maroon);
+  color: var(--white);
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .ganesha, .scroll-chevron, .footer-emoji {
+    animation: none;
+    transition: none;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* Tablet+ */
+@media (min-width: 640px) {
+  .event-card {
+    margin: 0 auto 1.5rem;
+    max-width: 32rem;
+  }
+  .intro-panel {
+    padding: 4rem 3rem;
+  }
+}

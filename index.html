@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8f4ee" />
+  <meta name="description" content="You're invited to celebrate with us." />
+  <title>Soumith &amp; Malathi | Wedding Invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preconnect" href="https://images.pexels.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+Telugu:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <button type="button" class="audio-toggle" id="audioToggle" aria-label="Toggle ambient music" aria-pressed="false">
+    <svg class="audio-icon audio-icon--off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+    </svg>
+    <svg class="audio-icon audio-icon--on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/>
+    </svg>
+  </button>
+  <audio id="ambientAudio" loop preload="metadata">
+    <source src="audio/Kaanunna%20Kalyanam.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="theme-morph" id="themeMorph" aria-hidden="true"></div>
+
+  <main class="page">
+    <!-- Invocation: real Ganesha photo -->
+    <section class="section section--invocation" id="invocation">
+      <div class="section-bg" style="--bg-image: url('https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=1200&q=80&auto=format&fit=crop')"></div>
+      <div class="section-inner reveal">
+        <header class="invocation-header">
+          <p class="invocation-mantra">॥ శ్రీ గణేశాయ నమః ॥</p>
+          <p class="invocation-blessing">Srirasthu Shubhamasthu Avighnamasthu</p>
+        </header>
+        <figure class="ganesha-hero">
+          <div class="ganesha-frame">
+            <img
+              class="ganesha-photo"
+              src="assets/ganesha.jpg"
+              alt="Lord Ganesha"
+              width="280"
+              height="350"
+              loading="eager"
+              decoding="async"
+              style="background-color: #f8f4ee;"
+            />
+          </div>
+          <figcaption class="visually-hidden">॥ శ్రీ గణేశాయ నమః ॥</figcaption>
+        </figure>
+        <p class="invocation-text">With immense joy, and the blessings of the Divine and our families, we invite you to celebrate our wedding with us.</p>
+        <h1 class="couple-names">
+          <span class="name">Soumith</span>
+          <span class="ampersand">&amp;</span>
+          <span class="name">Malathi</span>
+        </h1>
+        <p class="scroll-hint">Scroll to begin the journey</p>
+        <svg class="scroll-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </section>
+
+    <section class="section section--roots" id="roots">
+      <article class="intro-panel intro-panel--modern" id="intro-groom">
+        <div class="intro-bg intro-bg--modern"></div>
+        <div class="intro-content reveal reveal--from-right">
+          <span class="intro-label">The Groom</span>
+          <h2 class="intro-name">Soumith Kumar Dachepalli</h2>
+          <div class="family-tree">
+            <p><strong>Only S/o</strong> Sri. Naresh Kumar Dachepalli &amp; Smt. Sunitha</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="intro-panel intro-panel--traditional" id="intro-bride">
+        <div class="intro-bg intro-bg--traditional"></div>
+        <div class="intro-content reveal reveal--from-left">
+          <span class="intro-label">The Bride</span>
+          <h2 class="intro-name">Malathi Pulakam</h2>
+          <div class="family-tree">
+            <p><strong>Only D/o</strong> Sri. Ramamohan Pulakam &amp; Smt. Kalyani</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section section--events" id="events">
+      <header class="events-header reveal">
+        <h2>Celebrations</h2>
+        <!-- <p>Six moments woven together — tap a dot on the right to jump ahead.</p> -->
+      </header>
+
+      <article class="event-card event-card--pk" id="event-pk">
+        <div class="event-bg"></div>
+        <div class="event-body reveal">
+          <h3>Pelli Koduku</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Sunday, 21 June 2026</dd></div>
+            <div><dt>Time</dt><dd>10:00 AM</dd></div>
+            <div><dt>Venue</dt><dd>Our residence, Varadaiah Nagar, Khammam</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/voU7gsHrNLWRbqLPA" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
+      </article>
+
+      <article class="event-card event-card--haldi" id="event-haldi">
+        <div class="event-bg"></div>
+        <div class="event-body reveal">
+          <h3>Haldi</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Tuesday, 23 June 2026</dd></div>
+            <div><dt>Time</dt><dd>10:00 AM</dd></div>
+            <div><dt>Venue</dt><dd>Our residence, Varadaiah Nagar, Khammam</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/voU7gsHrNLWRbqLPA" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
+      </article>
+
+      <article class="event-card event-card--wedding" id="event-wedding">
+        <div class="event-bg"></div>
+        <div class="event-body reveal">
+          <span class="event-tag">Muhurtham</span>
+          <h3>The Wedding Day</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Wednesday, 24 June 2026</dd></div>
+            <div><dt>Time</dt><dd>8:55 PM Muhurtham</dd></div>
+            <div><dt>Venue</dt><dd>Brindavanam Kalyana Vedika, Ongole</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/k1r4Y4xga6ZY4RqF8" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
+      </article>
+
+      <article class="event-card event-card--vratham" id="event-vratham">
+        <div class="event-bg"></div>
+        <div class="event-body reveal">
+          <h3>Vratham</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Thursday, 25 June 2026</dd></div>
+            <div><dt>Time</dt><dd>4:00 PM onwards</dd></div>
+            <div><dt>Venue</dt><dd>Our residence, Varadaiah Nagar, Khammam</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/voU7gsHrNLWRbqLPA" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
+      </article>
+
+      <article class="event-card event-card--sangeet" id="event-sangeet">
+        <div class="event-bg"></div>
+        <div class="event-body reveal">
+          <h3>Sangeet</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Thursday, 25 June 2026</dd></div>
+            <div><dt>Time</dt><dd>8:00 PM onwards</dd></div>
+            <div><dt>Venue</dt><dd>RR Gardens, Khammam</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/3Y7as7raD7q41TLw6" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
+      </article>
+
+      <article class="event-card event-card--reception" id="event-reception">
+        <div class="event-bg" style="--bg-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&q=80&auto=format&fit=crop')"></div>
+        <div class="event-body reveal">
+          <h3>Reception</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Friday, 26 June 2026</dd></div>
+            <div><dt>Time</dt><dd>7:00 PM onwards</dd></div>
+            <div><dt>Venue</dt><dd>SR Gardens, Khammam</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/8whQhfbhbDw84fMH8" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
+      </article>
+    </section>
+
+    <footer class="section section--footer" id="footer">
+      <div class="footer-bg" aria-hidden="true"></div>
+      <div class="footer-inner reveal">
+        <div class="footer-emojis" aria-hidden="true">
+          <span class="footer-emoji">💐</span>
+          <span class="footer-emoji">✨</span>
+          <span class="footer-emoji">🪷</span>
+          <span class="footer-emoji">🪔</span>
+          <span class="footer-emoji">✨</span>
+          <span class="footer-emoji">💐</span>
+        </div>
+        <div class="footer-ornament" aria-hidden="true"><span>✦</span></div>
+        <p class="footer-message">Grace us with your presence, we cannot wait!</p>
+        <p class="footer-signoff">With love and blessings</p>
+        <p class="footer-families">The Dachepalli &amp; Pulakam Families</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- <button type="button" class="rsvp-fixed" id="rsvpBtn">RSVP</button> -->
+
+  <dialog class="rsvp-modal" id="rsvpModal" aria-labelledby="rsvpTitle">
+    <div class="rsvp-modal-inner">
+      <button type="button" class="rsvp-close" id="rsvpClose" aria-label="Close">&times;</button>
+      <h2 id="rsvpTitle">Kindly Respond</h2>
+      <p>We would be honoured by your presence.</p>
+      <form class="rsvp-form" id="rsvpForm">
+        <label><span>Your name</span><input type="text" name="name" required placeholder="Full name" /></label>
+        <label><span>Guest count</span><input type="number" name="guests" min="1" max="10" value="1" /></label>
+        <label><span>Message (optional)</span><textarea name="message" rows="3" placeholder="Blessings &amp; notes"></textarea></label>
+        <button type="submit" class="btn-submit">Send RSVP</button>
+      </form>
+    </div>
+  </dialog>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
