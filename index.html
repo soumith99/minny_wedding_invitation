@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://images.pexels.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+Telugu:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/invite-config.js"></script>
+  <script src="js/invite.js"></script>
 </head>
 <body>
   <button type="button" class="audio-toggle" id="audioToggle" aria-label="Toggle ambient music" aria-pressed="false">
@@ -64,24 +66,26 @@
     </section>
 
     <section class="section section--roots" id="roots">
-      <article class="intro-panel intro-panel--modern" id="intro-groom">
+      <article class="intro-panel intro-panel--modern" id="intro-groom" data-invite-panel="groom">
         <div class="intro-bg intro-bg--modern"></div>
         <div class="intro-content reveal reveal--from-right">
           <span class="intro-label">The Groom</span>
           <h2 class="intro-name">Soumith Kumar Dachepalli</h2>
           <div class="family-tree">
-            <p><strong>Only S/o</strong> Sri. Naresh Kumar Dachepalli &amp; Smt. Sunitha</p>
+            <p class="family-line"><strong>Only S/o</strong> <span class="family-name">Sri. Naresh Kumar Dachepalli</span></p>
+            <p class="family-line"><span class="family-amp">&amp;</span> <span class="family-name">Smt. Sunitha</span></p>
           </div>
         </div>
       </article>
 
-      <article class="intro-panel intro-panel--traditional" id="intro-bride">
+      <article class="intro-panel intro-panel--traditional" id="intro-bride" data-invite-panel="bride">
         <div class="intro-bg intro-bg--traditional"></div>
         <div class="intro-content reveal reveal--from-left">
           <span class="intro-label">The Bride</span>
           <h2 class="intro-name">Malathi Pulakam</h2>
           <div class="family-tree">
-            <p><strong>Only D/o</strong> Sri. Ramamohan Pulakam &amp; Smt. Kalyani</p>
+            <p class="family-line"><strong>Only D/o</strong> <span class="family-name">Sri. Ramamohan Pulakam</span></p>
+            <p class="family-line"><span class="family-amp">&amp;</span> <span class="family-name">Smt. Kalyani</span></p>
           </div>
         </div>
       </article>
@@ -93,9 +97,9 @@
         <!-- <p>Six moments woven together — tap a dot on the right to jump ahead.</p> -->
       </header>
 
-      <article class="event-card event-card--pk" id="event-pk">
+      <article class="event-card event-card--pk" id="event-pk" data-invite-tier="full">
         <div class="event-bg"></div>
-        <div class="event-body reveal">
+        <div class="event-body reveal" data-invite-variant="groom">
           <h3>Pelli Koduku</h3>
           <dl class="event-details">
             <div><dt>Date</dt><dd>Sunday, 21 June 2026</dd></div>
@@ -104,11 +108,20 @@
           </dl>
           <a class="btn-maps" href="https://maps.app.goo.gl/voU7gsHrNLWRbqLPA" target="_blank" rel="noopener noreferrer">📍 View on map</a>
         </div>
+        <div class="event-body reveal" data-invite-variant="bride">
+          <h3>Pelli Kuthuru</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Sunday, 21 June 2026</dd></div>
+            <div><dt>Time</dt><dd>10:00 AM</dd></div>
+            <div><dt>Venue</dt><dd>Our residence, Ongole</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/Z7aHYGRwFtwGzHtx5?g_st=aw" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
       </article>
 
-      <article class="event-card event-card--haldi" id="event-haldi">
+      <article class="event-card event-card--haldi" id="event-haldi" data-invite-tier="full">
         <div class="event-bg"></div>
-        <div class="event-body reveal">
+        <div class="event-body reveal" data-invite-variant="groom">
           <h3>Haldi</h3>
           <dl class="event-details">
             <div><dt>Date</dt><dd>Tuesday, 23 June 2026</dd></div>
@@ -116,6 +129,15 @@
             <div><dt>Venue</dt><dd>Our residence, Varadaiah Nagar, Khammam</dd></div>
           </dl>
           <a class="btn-maps" href="https://maps.app.goo.gl/voU7gsHrNLWRbqLPA" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
+        <div class="event-body reveal" data-invite-variant="bride">
+          <h3>Haldi</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Tuesday, 23 June 2026</dd></div>
+            <div><dt>Time</dt><dd>10:00 AM</dd></div>
+            <div><dt>Venue</dt><dd>Our residence, Ongole</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/Z7aHYGRwFtwGzHtx5?g_st=aw" target="_blank" rel="noopener noreferrer">📍 View on map</a>
         </div>
       </article>
 
@@ -133,9 +155,9 @@
         </div>
       </article>
 
-      <article class="event-card event-card--vratham" id="event-vratham">
+      <article class="event-card event-card--vratham" id="event-vratham" data-invite-tier="full">
         <div class="event-bg"></div>
-        <div class="event-body reveal">
+        <div class="event-body reveal" data-invite-variant="groom">
           <h3>Vratham</h3>
           <dl class="event-details">
             <div><dt>Date</dt><dd>Thursday, 25 June 2026</dd></div>
@@ -144,9 +166,18 @@
           </dl>
           <a class="btn-maps" href="https://maps.app.goo.gl/voU7gsHrNLWRbqLPA" target="_blank" rel="noopener noreferrer">📍 View on map</a>
         </div>
+        <div class="event-body reveal" data-invite-variant="bride">
+          <h3>Vratham</h3>
+          <dl class="event-details">
+            <div><dt>Date</dt><dd>Thursday, 25 June 2026</dd></div>
+            <div><dt>Time</dt><dd>4:00 PM onwards</dd></div>
+            <div><dt>Venue</dt><dd>Varadaiah Nagar, Khammam</dd></div>
+          </dl>
+          <a class="btn-maps" href="https://maps.app.goo.gl/voU7gsHrNLWRbqLPA" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+        </div>
       </article>
 
-      <article class="event-card event-card--sangeet" id="event-sangeet">
+      <article class="event-card event-card--sangeet" id="event-sangeet" data-invite-tier="full">
         <div class="event-bg"></div>
         <div class="event-body reveal">
           <h3>Sangeet</h3>
@@ -168,7 +199,7 @@
             <div><dt>Time</dt><dd>7:00 PM onwards</dd></div>
             <div><dt>Venue</dt><dd>SR Gardens, Khammam</dd></div>
           </dl>
-          <a class="btn-maps" href="https://maps.app.goo.gl/8whQhfbhbDw84fMH8" target="_blank" rel="noopener noreferrer">📍 View on map</a>
+          <a class="btn-maps" href="https://maps.app.goo.gl/p9E4ww563wqKXdJF8?g_st=ac" target="_blank" rel="noopener noreferrer">📍 View on map</a>
         </div>
       </article>
     </section>

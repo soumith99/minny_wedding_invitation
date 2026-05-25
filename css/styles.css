@@ -25,6 +25,16 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Invite tiers — <html data-invite-*> set in js/invite.js before paint */
+html[data-invite-tier="minimal"] [data-invite-tier="full"] {
+  display: none !important;
+}
+
+html[data-invite-tier="full"][data-invite-version="groom"] [data-invite-variant="bride"],
+html[data-invite-tier="full"][data-invite-version="bride"] [data-invite-variant="groom"] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -617,11 +627,25 @@ body[data-global-theme="events"] .theme-morph { background: #f0ebe3; }
   line-height: 1.15;
 }
 
+.family-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
 .family-tree p {
-  margin: 0.35rem 0;
+  margin: 0;
   font-size: 0.9rem;
-  line-height: 1.5;
+  line-height: 1.45;
   font-weight: 300;
+}
+
+.family-name {
+  white-space: nowrap;
+}
+
+.family-amp {
+  opacity: 0.85;
 }
 
 .family-sub {

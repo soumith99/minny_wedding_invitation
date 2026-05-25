@@ -15,7 +15,7 @@
   const rsvpClose = document.getElementById("rsvpClose");
   const rsvpForm = document.getElementById("rsvpForm");
 
-  const EVENT_IDS = [
+  const ALL_EVENT_IDS = [
     "event-pk",
     "event-haldi",
     "event-wedding",
@@ -23,6 +23,16 @@
     "event-sangeet",
     "event-reception",
   ];
+
+  const MINIMAL_EVENT_IDS = ["event-wedding", "event-reception"];
+
+  function getInviteTier() {
+    return document.documentElement.dataset.inviteTier === "full" ? "full" : "minimal";
+  }
+
+  function getEventIds() {
+    return getInviteTier() === "full" ? ALL_EVENT_IDS : MINIMAL_EVENT_IDS;
+  }
 
   // --- Reveal on scroll ---
   const revealEls = document.querySelectorAll(".reveal");
@@ -48,13 +58,18 @@
   });
 
   // --- Global theme morph on scroll ---
-  const themeSections = [
-    { el: document.getElementById("invocation"), theme: "ivory" },
-    { el: document.getElementById("intro-groom"), theme: "twilight" },
-    { el: document.getElementById("intro-bride"), theme: "marigold" },
-    { el: document.getElementById("events"), theme: "events" },
-    { el: document.getElementById("footer"), theme: "marigold" },
-  ].filter((s) => s.el);
+  function getThemeSections() {
+    const sections = [
+      { el: document.getElementById("invocation"), theme: "ivory" },
+      { el: document.getElementById("intro-groom"), theme: "twilight" },
+      { el: document.getElementById("intro-bride"), theme: "marigold" },
+      { el: document.getElementById("events"), theme: "events" },
+      { el: document.getElementById("footer"), theme: "marigold" },
+    ];
+    return sections.filter((s) => s.el && s.el.offsetParent !== null);
+  }
+
+  let themeSections = getThemeSections();
 
   function updateGlobalTheme() {
     const vh = window.innerHeight * 0.45;
@@ -142,7 +157,7 @@
     { rootMargin: "-30% 0px -55% 0px", threshold: 0 }
   );
 
-  EVENT_IDS.forEach((id) => {
+  getEventIds().forEach((id) => {
     const card = document.getElementById(id);
     if (card) activeDotObserver.observe(card);
   });
