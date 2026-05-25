@@ -13,4 +13,8 @@
   const root = document.documentElement;
   root.dataset.inviteTier = tier;
   root.dataset.inviteVersion = version;
+
+  if (version === "bride") {
+    document.title = "Malathi & Soumith | Wedding Invitation";
+  }
 })();

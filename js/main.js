@@ -195,23 +195,41 @@
     }
   });
 
+  async function setAudioPlaying(playing) {
+    if (!ambientAudio || !audioToggle) return;
+    if (playing) {
+      seekToAudioStart();
+      await ambientAudio.play();
+      audioToggle.classList.add("is-playing");
+      audioToggle.setAttribute("aria-pressed", "true");
+    } else {
+      ambientAudio.pause();
+      audioToggle.classList.remove("is-playing");
+      audioToggle.setAttribute("aria-pressed", "false");
+    }
+  }
+
+  async function tryStartAmbientAudio() {
+    if (!ambientAudio || !ambientAudio.paused) return;
+    try {
+      await setAudioPlaying(true);
+    } catch {
+      audioToggle.title = "Could not play audio — tap to try again";
+    }
+  }
+
   audioToggle?.addEventListener("click", async () => {
     if (!ambientAudio) return;
     try {
-      if (ambientAudio.paused) {
-        seekToAudioStart();
-        await ambientAudio.play();
-        audioToggle.classList.add("is-playing");
-        audioToggle.setAttribute("aria-pressed", "true");
-      } else {
-        ambientAudio.pause();
-        audioToggle.classList.remove("is-playing");
-        audioToggle.setAttribute("aria-pressed", "false");
-      }
+      await setAudioPlaying(ambientAudio.paused);
     } catch {
       audioToggle.title = "Could not play audio — tap to try again";
     }
   });
+
+  tryStartAmbientAudio();
+  document.addEventListener("pointerdown", tryStartAmbientAudio, { once: true });
+  document.addEventListener("keydown", tryStartAmbientAudio, { once: true });
 
   // --- RSVP modal ---
   rsvpBtn?.addEventListener("click", () => {

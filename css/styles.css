@@ -30,9 +30,14 @@ html[data-invite-tier="minimal"] [data-invite-tier="full"] {
   display: none !important;
 }
 
-html[data-invite-tier="full"][data-invite-version="groom"] [data-invite-variant="bride"],
-html[data-invite-tier="full"][data-invite-version="bride"] [data-invite-variant="groom"] {
+html[data-invite-version="groom"] [data-invite-variant="bride"],
+html[data-invite-version="bride"] [data-invite-variant="groom"] {
   display: none !important;
+}
+
+html[data-invite-version="bride"] .section--roots {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 html {
