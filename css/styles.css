@@ -40,6 +40,19 @@ html[data-invite-version="bride"] .section--roots {
   flex-direction: column-reverse;
 }
 
+html[data-invite-version="bride"] .section--events {
+  display: flex;
+  flex-direction: column;
+}
+
+html[data-invite-version="bride"] .events-header { order: -1; }
+html[data-invite-version="bride"] #event-haldi { order: 1; }
+html[data-invite-version="bride"] #event-pk { order: 2; }
+html[data-invite-version="bride"] #event-wedding { order: 3; }
+html[data-invite-version="bride"] #event-vratham { order: 4; }
+html[data-invite-version="bride"] #event-sangeet { order: 5; }
+html[data-invite-version="bride"] #event-reception { order: 6; }
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -141,23 +154,43 @@ body[data-global-theme="events"] .theme-morph { background: #f0ebe3; }
   background: inherit;
 }
 
-/* Audio toggle */
+/* Audio toggle (bottom-right, pulses when idle — robinwedding.lovable.app) */
 .audio-toggle {
   position: fixed;
-  top: max(0.75rem, env(safe-area-inset-top));
-  right: 0.75rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  right: max(1rem, env(safe-area-inset-right));
   z-index: 200;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.85);
+  border: 2px solid rgba(184, 134, 11, 0.4);
+  background: rgba(212, 175, 55, 0.1);
   backdrop-filter: blur(8px);
-  color: var(--maroon);
+  color: rgba(139, 90, 43, 0.75);
   cursor: pointer;
   display: grid;
   place-items: center;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  animation: audio-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.audio-toggle.is-playing {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(184, 134, 11, 0.6);
+  color: var(--maroon);
+  animation: none;
+}
+
+@keyframes audio-pulse {
+  50% { opacity: 0.55; }
+}
+
+@media (min-width: 768px) {
+  .audio-toggle {
+    width: 3rem;
+    height: 3rem;
+  }
 }
 
 .audio-icon { width: 1.25rem; height: 1.25rem; }

@@ -178,103 +178,34 @@
     eventDots.style.transition = "opacity 0.4s ease";
   }
 
-  // --- Ambient audio ---
-  // Same pattern as robinwedding.lovable.app: try play on load, then
-  // click / touchstart / scroll until the first successful play().
-  const AUDIO_START_SEC = 16;
-  let audioUnlockDone = false;
-
-  function seekToAudioStart() {
-    if (!ambientAudio || !Number.isFinite(ambientAudio.duration)) return;
-    if (ambientAudio.duration <= AUDIO_START_SEC) return;
-    if (ambientAudio.currentTime < AUDIO_START_SEC) {
-      ambientAudio.currentTime = AUDIO_START_SEC;
-    }
-  }
-
-  ambientAudio?.addEventListener("loadedmetadata", seekToAudioStart);
-  ambientAudio?.addEventListener("timeupdate", () => {
-    if (!ambientAudio.paused && ambientAudio.currentTime < AUDIO_START_SEC) {
-      seekToAudioStart();
-    }
-  });
-
-  function updateAudioToggleUI(playing) {
+  // --- Ambient audio toggle (autoplay in js/audio.js, loaded right after <audio>) ---
+  function setAudioPlaying(playing) {
     if (!audioToggle) return;
     audioToggle.classList.toggle("is-playing", playing);
     audioToggle.setAttribute("aria-pressed", playing ? "true" : "false");
+    audioToggle.setAttribute("aria-label", playing ? "Mute music" : "Play music");
   }
 
-  function onAmbientPlaying() {
+  function syncAudioToggle() {
     if (!ambientAudio) return;
-    audioUnlockDone = true;
-    ambientAudio.muted = false;
-    seekToAudioStart();
-    updateAudioToggleUI(true);
-    removeAudioUnlockListeners();
-    if (audioToggle) audioToggle.title = "";
+    setAudioPlaying(!ambientAudio.paused);
   }
 
-  function removeAudioUnlockListeners() {
-    document.removeEventListener("click", onFirstInteraction);
-    document.removeEventListener("touchstart", onFirstInteraction);
-    document.removeEventListener("scroll", onFirstInteraction);
-  }
-
-  function onFirstInteraction() {
-    if (!ambientAudio || audioUnlockDone) return;
-    ambientAudio.muted = false;
-    const playPromise = ambientAudio.play();
-    if (!playPromise) {
-      removeAudioUnlockListeners();
-      return;
-    }
-    playPromise
-      .then(onAmbientPlaying)
-      .catch(() => {
-        if (audioToggle) {
-          audioToggle.title = "Tap the speaker if music does not start";
-        }
-      })
-      .finally(removeAudioUnlockListeners);
-  }
-
-  function registerAudioUnlockListeners() {
-    document.addEventListener("click", onFirstInteraction, { once: true });
-    document.addEventListener("touchstart", onFirstInteraction, {
-      once: true,
-      passive: true,
-    });
-    document.addEventListener("scroll", onFirstInteraction, {
-      once: true,
-      passive: true,
-    });
-  }
-
-  if (ambientAudio) {
-    ambientAudio.muted = false;
-    const initialPlay = ambientAudio.play();
-    if (initialPlay) {
-      initialPlay.then(onAmbientPlaying).catch(registerAudioUnlockListeners);
-    } else {
-      registerAudioUnlockListeners();
-    }
-  }
+  ambientAudio?.addEventListener("ambient-audio-state", (e) => {
+    setAudioPlaying(Boolean(e.detail?.playing));
+  });
+  ambientAudio?.addEventListener("play", syncAudioToggle);
+  ambientAudio?.addEventListener("pause", syncAudioToggle);
+  syncAudioToggle();
 
   audioToggle?.addEventListener("click", () => {
     if (!ambientAudio) return;
     if (!ambientAudio.paused) {
       ambientAudio.pause();
-      updateAudioToggleUI(false);
+      setAudioPlaying(false);
       return;
     }
-    ambientAudio.muted = false;
-    ambientAudio
-      .play()
-      .then(onAmbientPlaying)
-      .catch(() => {
-        audioToggle.title = "Could not play audio — try again";
-      });
+    ambientAudio.play().then(() => setAudioPlaying(true)).catch(() => {});
   });
 
   // --- RSVP modal ---

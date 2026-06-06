@@ -12,11 +12,12 @@
   <link rel="preconnect" href="https://images.pexels.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+Telugu:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preload" href="audio/Kaanunna%20Kalyanam.mp3" as="audio" type="audio/mpeg" />
   <script src="js/invite-config.js"></script>
   <script src="js/invite.js"></script>
 </head>
 <body>
-  <button type="button" class="audio-toggle" id="audioToggle" aria-label="Toggle ambient music" aria-pressed="false">
+  <button type="button" class="audio-toggle" id="audioToggle" aria-label="Play music" aria-pressed="false">
     <svg class="audio-icon audio-icon--off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
       <path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
     </svg>
@@ -24,9 +25,8 @@
       <path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/>
     </svg>
   </button>
-  <audio id="ambientAudio" loop preload="auto">
-    <source src="audio/Kaanunna%20Kalyanam.mp3" type="audio/mpeg" />
-  </audio>
+  <audio id="ambientAudio" src="audio/Kaanunna%20Kalyanam.mp3" loop preload="auto"></audio>
+  <script src="js/audio.js"></script>
 
   <div class="theme-morph" id="themeMorph" aria-hidden="true"></div>
 
@@ -118,7 +118,7 @@
         <div class="event-body reveal" data-invite-variant="bride">
           <h3>Pelli Kuthuru</h3>
           <dl class="event-details">
-            <div><dt>Date</dt><dd>Sunday, 21 June 2026</dd></div>
+            <div><dt>Date</dt><dd>Wednesday, 24 June 2026</dd></div>
             <div><dt>Time</dt><dd>10:00 AM</dd></div>
             <div><dt>Venue</dt><dd>Our residence, Ongole</dd></div>
           </dl>
